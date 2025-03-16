@@ -25,7 +25,12 @@ const UpgradePage = () => {
       .select()
       .from(Plan)
       .orderBy(desc(Plan.id)); // Fetch plans in descending order by ID
-    setItems(getPlans); // Set the fetched items
+      const sortedPlans = getPlans.sort((a, b) => {
+        if (a.price === '0' || a.name.toLowerCase() === 'free') return -1;
+        if (b.price === '0' || b.name.toLowerCase() === 'free') return 1;
+        return 0;
+      });
+      setItems(sortedPlans); // Set the fetched items
   };
 
   // If the user is signed in, set the email
@@ -60,9 +65,9 @@ const UpgradePage = () => {
     }
   };
 
-  if (!isLoaded) {
-    return <div className="text-white bg-black min-h-screen flex items-center justify-center">Loading...</div>; // Show loading state while Clerk user data is loading
-  }
+  // if (!isLoaded) {
+  //   return <div className="text-white bg-black min-h-screen flex items-center justify-center">Loading...</div>; // Show loading state while Clerk user data is loading
+  // }
 
   if (!isSignedIn) {
     return <div className="text-white bg-black min-h-screen flex items-center justify-center">Please sign in to access the plans.</div>; // If user is not signed in
@@ -70,22 +75,12 @@ const UpgradePage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
-      <h1 className="text-4xl font-bold text-center text-purple-500 mb-6">Upgrade Your Plan</h1>
+      <h1 className="text-4xl font-bold text-center text-purple-500 mb-6 mt-6">Upgrade Your Plan</h1>
       <p className="text-center text-gray-400 mb-12">
         Choose a plan that suits your needs and unlock additional features.
       </p>
-      {/* <div className="flex justify-center mb-8">
-        <label className="flex items-center space-x-2">
-          <span className="text-gray-400">Weekly</span>
-          <input
-            type="checkbox"
-            className="toggle toggle-purple"
-            onChange={(e) => setBillingCycle(e.target.checked ? 'Monthly' : 'Weekly')}
-          />
-          <span className="text-purple-500">Monthly</span>
-        </label>
-      </div> */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center">
         {items.map((plan) => (
           <div
             key={plan.id}
@@ -100,7 +95,7 @@ const UpgradePage = () => {
                 MOST POPULAR
               </div>
             )}
-            <h2 className="text-2xl font-semibold text-blue-400 mb-4">{plan.name}</h2>
+            <h2 className="text-2xl font-semibold text-purple-400 mb-4">{plan.name.charAt(0).toUpperCase() + plan.name.slice(1)}</h2>
             <p className="text-3xl font-bold text-purple-400 mb-6">
               ${plan.price} {billingCycle === 'Monthly' ? '/month' : '/week'}
             </p>

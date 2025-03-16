@@ -1,13 +1,3 @@
-// This is a Next.js project structure for the Mock Interviewer AI webpage design based on the provided image.
-// Install dependencies: `npm install next react react-dom`.
-
-// pages/_app.js
-// import "../styles/globals.css";
-// export default function MyApp({ Component, pageProps }) {
-//   return <Component {...pageProps} />;
-// }
-
-// pages/index.js
 "use client";
 import Head from "next/head";
 import Image from "next/image";
@@ -21,10 +11,11 @@ import SuccessStoriesSection from "@/components/ui/SuccessStoriesSection";
 import NewCareerSection from "@/components/ui/NewCareerSection";
 import FAQSection from "@/components/ui/FAQSection";
 import Footer from "@/components/ui/Footer";
-
+import Header from "@/components/ui/Header";
 export default function Home() {
   return (
     <div>
+      <Header />
       <HeroSection />
       <FeatureSection />
       <MockInterviewSection />
